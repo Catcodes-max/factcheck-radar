@@ -18,19 +18,18 @@ import trafilatura
 # -------------------------
 
 
+import os
+
 @st.cache_resource
 def load_models_and_encoders():
-    # Load main text classifier
-    clf_text = load("saved_model.pkl")
-    
-    # Load sentence transformer
+    base_path = os.path.dirname(__file__)  # This ensures correct path in Streamlit Cloud
+
+    clf_text = load(os.path.join(base_path, "saved_model.pkl"))
     encoder = SentenceTransformer("all-MiniLM-L6-v2")
-    
-    # Load classifier and encoder
-    clf_source = load("source_only_model.pkl")
-    source_encoder = load("source_encoder.pkl")
-    ohe = load("source_ohe.pkl")
-    
+    clf_source = load(os.path.join(base_path, "source_only_model.pkl"))
+    source_encoder = load(os.path.join(base_path, "source_encoder.pkl"))
+    ohe = load(os.path.join(base_path, "source_ohe.pkl"))
+
     return clf_text, encoder, clf_source, source_encoder, ohe
 
 clf_text, encoder, clf_source, source_encoder, ohe = load_models_and_encoders()
